@@ -1,10 +1,20 @@
 version: '3'
 
 services:
+  nx-app-base:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DEV_PLATFORM=DOCKER
+    volumes:
+      - ./:/app
+      - mono-node-modules:/app/node_modules
+
   # React App
   app-1:
     extends:
-      file: docker-compose.base.yml
       service: nx-app-base
     command: npm run app-1:dev:docker
     ports:
@@ -13,7 +23,6 @@ services:
   # React App
   app-2:
     extends:
-      file: docker-compose.base.yml
       service: nx-app-base
     command: npm run app-2:dev:docker
     ports:
@@ -22,7 +31,6 @@ services:
   # Angular App
   app-3:
     extends:
-      file: docker-compose.base.yml
       service: nx-app-base
     command: npm run app-3:dev:docker
     ports:
@@ -31,7 +39,6 @@ services:
   # Express App
   api-1:
     extends:
-      file: docker-compose.base.yml
       service: nx-app-base
     command: npm run api-1:dev:docker
     ports:
